@@ -1,0 +1,6 @@
+{
+  "name": "PDF Studio: Edit PDF",
+  "description": "Professional PDF editor to edit text and images, add signatures, annotate, and export high-resolution PDFs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
