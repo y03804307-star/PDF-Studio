@@ -32,6 +32,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Pre-create WebView cache directory structure to prevent Chromium simple_file_enumerator opendir errors
+        try {
+            val dirs = listOf(
+                java.io.File(cacheDir, "WebView/Default/HTTP Cache/Code Cache/js"),
+                java.io.File(cacheDir, "WebView/Default/HTTP Cache/Code Cache/wasm"),
+                java.io.File(cacheDir, "WebView/Default/HTTP Cache/Service Worker/Code Cache/js"),
+                java.io.File(cacheDir, "WebView/Default/HTTP Cache/Service Worker/Code Cache/wasm")
+            )
+            for (d in dirs) {
+                if (!d.exists()) {
+                    d.mkdirs()
+                }
+            }
+        } catch (_: Exception) {}
+
         // Handle opening a PDF passed via intent
         handleIncomingIntent(intent)
 

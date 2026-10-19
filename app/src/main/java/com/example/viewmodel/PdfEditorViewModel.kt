@@ -840,6 +840,9 @@ class PdfEditorViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun openRewardedAdPrompt() {
+        if (!_uiState.value.isAdsRemoved) {
+            adMobManager.initializeIfNeeded()
+        }
         _uiState.update { it.copy(isRewardedAdPromptOpen = true) }
     }
 
@@ -879,6 +882,13 @@ class PdfEditorViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun testWatchRewardedAd(activity: Activity) {
+        if (_uiState.value.isAdsRemoved) {
+            _uiState.update { it.copy(statusMessage = "PRO Active: Ads are removed on your account!") }
+            return
+        }
+        adMobManager.initializeIfNeeded {
+            adMobManager.loadRewardedAd()
+        }
         if (_uiState.value.isRewardedAdReady) {
             adMobManager.showRewardedAd(
                 activity = activity,
